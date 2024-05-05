@@ -113,7 +113,9 @@ const Show = () => {
                     </div>
                   </div>
 
-                  <div className="mb-4 italic pl-8">"{show.tagline}"</div>
+                  {show.tagline !== "" && (
+                    <div className="mb-4 italic pl-8">"{show.tagline}"</div>
+                  )}
                   <div className="mb-4 pl-8">{show.overview}</div>
 
                   <div className="flex mb-4 pl-8">
