@@ -5,7 +5,7 @@ import { IMovieCard } from "./types";
 import { Pill } from "../Pill";
 import { ROUTES } from "../../routes/constants";
 import React from "react";
-import genres from "../../constants/genres.json";
+import { getGenreNameById } from "../../constants/getGenre";
 import { useNavigate } from "react-router-dom";
 
 const MovieCard: React.FC<IMovieCard> = ({
@@ -16,24 +16,15 @@ const MovieCard: React.FC<IMovieCard> = ({
   posterPath,
 }) => {
   const navigate = useNavigate();
-  // states
   const poster = IMAGE_SOURCE + posterPath;
-
-  const getGenre = (genreId: number): string => {
-    const key = Object.values(genres.genres).find(
-      (genre) => genre.id === genreId
-    );
-    if (key) {
-      return key.name;
-    }
-    return "Not classified";
-  };
+  let genreTitle = "Genre Not Found";
+  if (genreId) {
+    const genreTitle = getGenreNameById(genreId);
+  }
 
   const navigateMovies = (id: number, movieName: string) => {
     navigate(`${ROUTES.SHOW}${id}`, { state: { name: movieName } }); // /show/278362
   };
-
-  //  use effects
 
   return (
     <div
@@ -50,7 +41,7 @@ const MovieCard: React.FC<IMovieCard> = ({
       </div>
       <div className="absolute bottom-0 left-0 w-full h-auto opacity-100 transition-all duration-300 bg-gradient-to-t from-[rgb(2,0,36)] via-transparent to-transparent rounded-b-none">
         <div className="p-4 py-3.5 w-full align-middle text-white">
-          <Pill title={getGenre(genreId)} color="red" />
+          <Pill title={genreTitle} color="red" />
           <p className="text-white block text-lg font-bold leading-none mt-2.5">
             {title}
           </p>
