@@ -32,7 +32,7 @@ const NowPlaying: React.FC = () => {
       <div className="font-bold text-gray-800 text-2xl py-4 px-6">
           NOW PLAYING
       </div>
-      <div>
+      <div className="flex flex-wrap justify-between">
         {loading && <div> Loading...</div>}
         {errorMovies && <div> Error...</div>}
         {movies?.length > 0 &&

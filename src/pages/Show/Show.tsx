@@ -6,6 +6,12 @@ import { getMovieDetails } from "../../services/movies";
 import { getMovieRecommendations } from "../../services/movies";
 import { IMovieRecommendation } from "../../services/movies/types";
 import { MovieCard } from "../../components/MovieCard";
+import { ReactComponent as AdultIcon } from '../../assets/adult.svg';
+import { ReactComponent as ClockIcon } from '../../assets/clock.svg';
+import { ReactComponent as CalendarIcon } from '../../assets/calendar.svg';
+import { ReactComponent as StarIcon } from '../../assets/star.svg';
+import { ReactComponent as GraphIcon } from '../../assets/graph.svg';
+
 
 const Show = () => {
   const { id } = useParams();
@@ -70,9 +76,7 @@ const Show = () => {
   useEffect(() => {
     const favs = localStorage.getItem("favorites") || "";
     setFavorites(favs);
-    if (favs.includes(String(id))) {
-      setIsFavorite(true);
-    }
+    setIsFavorite(favs.includes(String(id)));
     setRecommendedLoading(true);
     setLoading(true);
     getMovieDetail();
@@ -105,11 +109,27 @@ const Show = () => {
                   <div className="mb-4 pl-8">
                     <div className="text-2xl font-bold">{show.title}</div>
                     <div className="flex flex-wrap">
-                      <div className="mr-4 mb-2">{show.adult ? "18+" : "18-"}</div>
-                      <div className="mr-4 mb-2">{show.runtime} min.</div>
-                      <div className="mr-4 mb-2">{show.release_date.substring(0, 4)}</div>
-                      <div className="mr-4 mb-2">{show.vote_average}</div>
-                      <div className="mr-4 mb-2">{show.vote_count}</div>
+                      <div className="flex items-center">
+                        <AdultIcon className="w-4 h-4 mr-1 mb-2" /> 
+                        <div className="mr-4 mb-2">{show.adult ? "18+" : "18-"}</div>
+                      </div>
+                      <div className="flex items-center">
+                        <ClockIcon className="w-4 h-4 mr-1 mb-2" /> 
+                        <div className="mr-4 mb-2">{show.runtime} min.</div>
+                      </div>
+                      <div className="flex items-center">
+                        <CalendarIcon className="w-4 h-4 mr-1 mb-2" /> 
+                        <div className="mr-4 mb-2">{show.release_date.substring(0, 4)}</div>
+                      </div>
+                      <div className="flex items-center">
+                        <StarIcon className="w-4 h-4 mr-1 mb-2" /> 
+                        <div className="mr-4 mb-2">{show.vote_average}</div>
+                      </div>
+                      <div className="flex items-center">
+                        <GraphIcon className="w-4 h-4 mr-1 mb-2" /> 
+                        <div className="mr-4 mb-2">{show.vote_count}</div>
+                      </div>
+                      
                     </div>
                   </div>
 

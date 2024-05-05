@@ -48,7 +48,7 @@ const Favorites = () => {
             {favorites && favorites.length > 0 ? (
               <div>
                 {shows && shows.length > 0 ? (
-                  <div>
+                  <div className="flex flex-wrap justify-between">
                     {shows.map((show: IMovieDetail) => (
                       <MovieCard
                         key={show.id}

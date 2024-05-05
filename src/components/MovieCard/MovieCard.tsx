@@ -1,5 +1,4 @@
 import "./MovieCard.css";
-
 import { IMAGE_SOURCE } from "../../constants/moviesMock";
 import { IMovieCard } from "./types";
 import { Pill } from "../Pill";
@@ -7,6 +6,7 @@ import { ROUTES } from "../../routes/constants";
 import React from "react";
 import { getGenreNameById } from "../../constants/getGenre";
 import { useNavigate } from "react-router-dom";
+import { ReactComponent as StarIcon } from '../../assets/star.svg';
 
 const MovieCard: React.FC<IMovieCard> = ({
   title,
@@ -45,9 +45,12 @@ const MovieCard: React.FC<IMovieCard> = ({
           <p className="text-white block text-lg font-bold leading-none mt-2.5">
             {title}
           </p>
-          <p className="mr-2.5 text-white text-xs font-medium table uppercase leading-none">
-            * {voteAverage} / 10
-          </p>
+          <div className="flex items-center">
+            <StarIcon className="mr-2 w-4 h-4" /> 
+            <p className="mr-2.5 text-white text-xs font-medium table uppercase leading-none">
+              {voteAverage} / 10
+            </p>
+          </div>
         </div>
       </div>
     </div>
