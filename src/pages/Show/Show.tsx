@@ -77,7 +77,7 @@ const Show = () => {
     setLoading(true);
     getMovieDetail();
     getRecommendations();
-  }, []);
+  }, [id]);
 
   return (
       <div>
