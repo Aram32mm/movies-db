@@ -76,7 +76,7 @@ const Favorites = () => {
           </div>
         ) : (
           <div>
-            <h2>Loading...</h2>
+            <h2>Oops, it seems that you don't any favorite movie yet...</h2>
           </div>
         )}
       </div>
