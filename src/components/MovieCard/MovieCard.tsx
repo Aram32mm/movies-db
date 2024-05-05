@@ -35,7 +35,7 @@ const MovieCard: React.FC<IMovieCard> = ({
     >
       <div className="ml-0 min-w-full overflow-hidden bg-gray-800 float-none transition-opacity duration-5550 ease-in-out transform-gpu">
         <img
-          src={poster}
+          src={poster} alt={title}
           className="max-h-96 max-w-60 transition-all duration-900 ease-in-out backface-hidden overflow-hidden min-w-full max-h-poster relative max-w-none ml-0 scale-100 hover:scale-125 hover:opacity-40"
         />
       </div>

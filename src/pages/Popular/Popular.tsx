@@ -14,6 +14,7 @@ const Popular: React.FC = () => {
     await getPopularMovies()
       .then((res) => {
         if (res && res.data) {
+          console.log(res.data.results, "res.data.results");
           setMovies(res.data.results);
         }
       })

@@ -1,15 +1,21 @@
-import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
-
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { IMAGE_SOURCE } from "../../constants/moviesMock";
+import { Pill } from "../../components/Pill";
 import { getMovieDetails } from "../../services/movies";
+import { getMovieRecommendations } from "../../services/movies";
+import { IMovieRecommendation } from "../../services/movies/types";
+import { MovieCard } from "../../components/MovieCard";
 
 const Show = () => {
   const { id } = useParams();
-  const location = useLocation();
   const navigate = useNavigate();
 
-  const [show, setShow] = useState<any>([]);
+  const [show, setShow] = useState<any>({});
+  const [recommendedMovies, setRecommendedMovies] = useState<IMovieRecommendation[]>([]);
+  const [recommendedLoading, setRecommendedLoading] = useState(true);
   const [loading, setLoading] = useState(true);
+  const [errorMovies, setErrorMovies] = useState<boolean>(false);
 
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
   const [favorites, setFavorites] = useState<string>(""); // "["3982732"]"
@@ -48,43 +54,122 @@ const Show = () => {
     setLoading(false);
   };
 
+  const getRecommendations = async () => {
+    await getMovieRecommendations(String(id))
+      .then((res) => {
+        if (res && res.data) {
+          setRecommendedMovies(res.data.results);
+        }
+      })
+      .catch((err) => {
+        setErrorMovies(true);
+      });
+    setRecommendedLoading(false);
+  };
+
   useEffect(() => {
     const favs = localStorage.getItem("favorites") || "";
     setFavorites(favs);
     if (favs.includes(String(id))) {
       setIsFavorite(true);
     }
+    setRecommendedLoading(true);
     setLoading(true);
     getMovieDetail();
+    getRecommendations();
   }, []);
 
   return (
-    <div>
-      {loading ? (
-        <span>loading...</span>
-      ) : (
-        <>
-          <div>Show: {id}</div>
-          <div>Título desde el state: {location.state.movie}</div>
-          <div>Título desde servicio: {show.title}</div>
-          <div>Para adultos desde servicio: {show.adult ? "Yes" : "No"}</div>
-          <button onClick={goBack}>Ir atrás</button>
-          {isFavorite ? (
-            <div>
-              <button className="p4 bg-blue-500" onClick={removeFavorite}>
-                Remove from favorites
-              </button>
+      <div>
+        { loading || recommendedLoading? (
+          <span>Loading...</span>
+        ) : (
+          <div>
+            <div className="flex flex-col">
+              <div>
+                <div className="mb-8">
+                  <button onClick={goBack} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    Go Back
+                  </button>
+                </div>
+              </div>
+
+              <div className="flex flex-row justify-center items-start">
+                <div className="w-1/3">
+                  <div>
+                    <img src={IMAGE_SOURCE + show.poster_path} alt={show.title} />
+                  </div>
+                </div>
+
+                <div className="w-2/3">
+                  <div className="mb-4 pl-8">
+                    <div className="text-2xl font-bold">{show.title}</div>
+                    <div className="flex flex-wrap">
+                      <div className="mr-4 mb-2">{show.adult ? "18+" : "18-"}</div>
+                      <div className="mr-4 mb-2">{show.runtime} min.</div>
+                      <div className="mr-4 mb-2">{show.release_date.substring(0, 4)}</div>
+                      <div className="mr-4 mb-2">{show.vote_average}</div>
+                      <div className="mr-4 mb-2">{show.vote_count}</div>
+                    </div>
+                  </div>
+
+                  <div className="mb-4 italic pl-8">"{show.tagline}"</div>
+                  <div className="mb-4 pl-8">{show.overview}</div>
+
+                  <div className="flex mb-4 pl-8">
+                    <div className="flex-1">
+                      <h1 className="text-lg leading-6">Genres</h1>
+                      <div className="flex flex-wrap gap-2">
+                        {show.genres.map((genre: any) => (
+                          <Pill key={genre.id} title={genre.name} color="green" />
+                        ))}
+                      </div>
+                    </div>
+                    <div className="flex-1">
+                      <h1 className="text-lg leading-6">Favorite</h1>
+                      {isFavorite ? (
+                        <button onClick={removeFavorite} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                          Remove from Favorites
+                        </button>
+                      ) : (
+                        <button onClick={addFavorite} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                          Add to Favorites
+                        </button>
+                      )}
+                    </div>
+                  </div>
+
+                </div>
+              </div>
             </div>
-          ) : (
-            <div>
-              <button className="p4 bg-red-500" onClick={addFavorite}>
-                Add to favorites
-              </button>
+
+            {/* Recommendation Part */}
+            <div className="flex flex-col">
+              <div className="font-bold text-gray-800 text-2xl py-4 px-6">
+                RECOMMENDATIONS
+              </div>
+              <div className="flex max-w-full overflow-x-auto">
+                {recommendedLoading && <div> Loading...</div>}
+                {errorMovies && <div> Error fetching recommendations...</div>}
+                {!recommendedMovies?.length && !errorMovies && (
+                  <div> No recommendations available.</div>
+                )}
+                {recommendedMovies?.length > 0 &&
+                  recommendedMovies.map((movie) => (
+                    <MovieCard
+                      key={movie.id}
+                      movieId={movie.id}
+                      posterPath={movie.poster_path}
+                      title={movie.title}
+                      voteAverage={movie.vote_average}
+                      genreId={movie.genre_ids[0]}
+                    />
+                  ))}
+              </div>
             </div>
-          )}
-        </>
-      )}
-    </div>
+          </div>       
+        )}
+      </div>
   );
 };
 
