@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 
-import { IMovieResponse } from "../../services/movies/types";
 import { MovieCard } from "../../components/MovieCard";
-import { getTopRatedMovies } from "../../services";
+import { getTopRatedMovies } from "../../services/movies";
+import { IMovieResponse } from "../../services/movies/types";
 
 const TopRated: React.FC = () => {
   const [movies, setMovies] = useState<IMovieResponse[]>([]);
@@ -29,19 +29,24 @@ const TopRated: React.FC = () => {
 
   return (
     <div>
-      {loading && <div> Loading...</div>}
-      {errorMovies && <div> Error...</div>}
-      {movies?.length > 0 &&
-        movies.map((movie) => (
-          <MovieCard
-            key={movie.id}
-            movieId={movie.id}
-            posterPath={movie.poster_path}
-            title={movie.title}
-            voteAverage={movie.vote_average}
-            genreId={movie.genre_ids[0]}
-          />
-        ))}
+      <div className="font-bold text-gray-800 text-2xl py-4 px-6">
+          TOP RATED
+      </div>
+      <div>
+        {loading && <div> Loading...</div>}
+        {errorMovies && <div> Error...</div>}
+        {movies?.length > 0 &&
+          movies.map((movie) => (
+            <MovieCard
+              key={movie.id}
+              movieId={movie.id}
+              posterPath={movie.poster_path}
+              title={movie.title}
+              voteAverage={movie.vote_average}
+              genreId={movie.genre_ids[0]}
+            />
+          ))}
+      </div>
     </div>
   );
 };

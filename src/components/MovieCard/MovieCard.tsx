@@ -19,7 +19,7 @@ const MovieCard: React.FC<IMovieCard> = ({
   const poster = IMAGE_SOURCE + posterPath;
   let genreTitle = "Genre Not Found";
   if (genreId) {
-    const genreTitle = getGenreNameById(genreId);
+    genreTitle = getGenreNameById(genreId);
   }
 
   const navigateMovies = (id: number, movieName: string) => {

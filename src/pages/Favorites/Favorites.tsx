@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 
-import { IMovieDetail } from "./types";
 import { MovieCard } from "../../components/MovieCard";
-import { getDetails } from "../../services/movies/getDetails";
+import { getMovieDetails } from "../../services/movies/getMovieDetails";
+import { IMovieDetail } from "../../services/movies/types";
 
 const Favorites = () => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -15,7 +15,7 @@ const Favorites = () => {
       const favoritesArray = JSON.parse(favorites); // ["213123", "123123"]
       const newShows = await Promise.all(
         favoritesArray.map(async (favoriteId: string) => {
-          return getDetails(favoriteId)
+          return getMovieDetails(favoriteId)
             .then((res) => {
               if (res && res.data) {
                 // res?.data
@@ -39,39 +39,47 @@ const Favorites = () => {
 
   return (
     <div>
-      {!loading ? (
-        <div>
-          <h2>My Favorites</h2>
-          {favorites && favorites.length > 0 ? (
-            <div>
-              {shows && shows.length > 0 ? (
-                <div>
-                  {shows.map((show: IMovieDetail) => (
-                    <MovieCard
-                      key={show.id}
-                      movieId={show.id}
-                      title={show.title}
-                      genreId={show.genres[0].id}
-                      voteAverage={show.vote_average}
-                      posterPath={show.poster_path}
-                    />
-                  ))}
+      <div className="font-bold text-gray-800 text-2xl py-4 px-6">
+        MY FAVORITES
+      </div>
+      <div>
+        {!loading ? (
+          <div>
+            {favorites && favorites.length > 0 ? (
+              <div>
+                {shows && shows.length > 0 ? (
+                  <div>
+                    {shows.map((show: IMovieDetail) => (
+                      <MovieCard
+                        key={show.id}
+                        movieId={show.id}
+                        title={show.title}
+                        genreId={show.genres[0].id}
+                        voteAverage={show.vote_average}
+                        posterPath={show.poster_path}
+                      />
+                    ))}
+                  </div>
+                ) : (
+                  <div className="font-semibold text-gray-800 text-2xl py-4 px-6">
+                    Oops, it seems that you don't any favorite movie yet...
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div>
+                <div className="font-semibold text-gray-800 text-2xl py-4 px-6">
+                  Oops, it seems that you don't any favorite movie yet...
                 </div>
-              ) : (
-                <div>Error fetching movies...</div>
-              )}
-            </div>
-          ) : (
-            <div>
-              <h3>Oops, it seems that you don't any favorite movie yet...</h3>
-            </div>
-          )}
-        </div>
-      ) : (
-        <div>
-          <h2>Loading...</h2>
-        </div>
-      )}
+              </div>
+            )}
+          </div>
+        ) : (
+          <div>
+            <h2>Loading...</h2>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

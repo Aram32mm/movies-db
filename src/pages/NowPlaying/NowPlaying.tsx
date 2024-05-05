@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from "react";
 
-
 import { MovieCard } from "../../components/MovieCard";
-import { getPopularMovies } from "../../services/movies";
+import { getNowPlayingMovies } from "../../services/movies";
 import { IMovieResponse } from "../../services/movies/types";
 
-const Popular: React.FC = () => {
+const NowPlaying: React.FC = () => {
   const [movies, setMovies] = useState<IMovieResponse[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [errorMovies, setErrorMovies] = useState<boolean>(false);
 
-  const getPopular = async () => {
-    await getPopularMovies()
+  const getNowPlaying = async () => {
+    await getNowPlayingMovies()
       .then((res) => {
         if (res && res.data) {
           setMovies(res.data.results);
@@ -25,13 +24,13 @@ const Popular: React.FC = () => {
 
   useEffect(() => {
     setLoading(true);
-    getPopular();
+    getNowPlaying();
   }, []);
 
   return (
     <div>
       <div className="font-bold text-gray-800 text-2xl py-4 px-6">
-        POPULAR
+          NOW PLAYING
       </div>
       <div>
         {loading && <div> Loading...</div>}
@@ -52,4 +51,4 @@ const Popular: React.FC = () => {
   );
 };
 
-export default Popular;
+export default NowPlaying;

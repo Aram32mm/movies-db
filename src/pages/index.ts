@@ -1,5 +1,6 @@
 export { Home } from './Home';
 export { Popular } from './Popular';
 export { TopRated } from './TopRated';
-export { Show } from './Show';
+export { NowPlaying } from './NowPlaying';
 export { Favorites } from './Favorites';
+export { Show } from './Show';

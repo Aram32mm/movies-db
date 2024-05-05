@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 
-import { getDetails } from "../../services/movies/getDetails";
+import { getMovieDetails } from "../../services/movies";
 
 const Show = () => {
   const { id } = useParams();
@@ -36,7 +36,7 @@ const Show = () => {
   };
 
   const getMovieDetail = async () => {
-    await getDetails(String(id))
+    await getMovieDetails(String(id))
       .then((res) => {
         if (res && res.data) {
           setShow(res.data);
