@@ -39,7 +39,7 @@ const Navbar = () => {
           </div>
         </div>
         <div
-          className={`justify-between items-center w-full lg:flex lg:order-1 ${
+          className={`pl-12 justify-start items-center w-full lg:flex lg:order-1 ${
             menuOpen ? "block" : "hidden"
           }`}
           id="desktop-menu"
