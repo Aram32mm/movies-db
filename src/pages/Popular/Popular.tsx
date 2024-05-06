@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
-
-
 import { MovieCard } from "../../components/MovieCard";
 import { getPopularMovies } from "../../services/movies";
 import { IMovieResponse } from "../../services/movies/types";
+import { ReactComponent as SortByNameIcon} from '../../assets/sortByName.svg';
+import { ReactComponent as SortByCalificationIcon} from '../../assets/sortByCalification.svg';
 
 const Popular: React.FC = () => {
   const [movies, setMovies] = useState<IMovieResponse[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [errorMovies, setErrorMovies] = useState<boolean>(false);
+  const [sortByName, setSortByName] = useState<boolean>(false);
+  const [sortByCalification, setSortByCalification] = useState<boolean>(false);
 
   const getPopular = async () => {
     await getPopularMovies()
@@ -24,6 +26,30 @@ const Popular: React.FC = () => {
     setLoading(false);
   };
 
+  const handleSortByName = () => {
+    if (!sortByName) {
+      setSortByName(true);
+      setSortByCalification(false); // Ensure only one filter is active at a time
+      const sortedMovies = [...movies].sort((a, b) => a.title.localeCompare(b.title));
+      setMovies(sortedMovies);
+    } else {
+      setSortByName(false);
+      getPopular();
+    }
+  };
+
+  const handleSortByCalification = () => {
+    if (!sortByCalification) {
+      setSortByCalification(true);
+      setSortByName(false); // Ensure only one filter is active at a time
+      const sortedMovies = [...movies].sort((a, b) => b.vote_average - a.vote_average);
+      setMovies(sortedMovies);
+    } else {
+      setSortByCalification(false);
+      getPopular();
+    }
+  };
+
   useEffect(() => {
     setLoading(true);
     getPopular();
@@ -31,8 +57,28 @@ const Popular: React.FC = () => {
 
   return (
     <div>
-      <div className="font-bold text-gray-800 text-2xl py-4 px-6">
-        POPULAR
+      <div className="flex items-center justify-between">
+          <div className="font-bold text-gray-800 text-2xl py-4 px-6">POPULAR</div>
+          <div className="flex items-center">
+            <button
+              onClick={handleSortByName}
+              className={`flex items-center px-2 py-1 rounded-md ml-2 text-sm ${
+                sortByName ? "bg-green-500 text-white" : "bg-blue-500 text-white"
+              }`}
+            >
+              <SortByNameIcon className="w-3 h-3 ml-1" />
+              <div className="px-2 py-1">{sortByName ? "Sorted By Name" : "Sort By Name"}</div>
+            </button>
+            <button
+              onClick={handleSortByCalification}
+              className={`flex items-center px-2 py-1 rounded-md ml-2 text-sm ${
+                sortByCalification ? "bg-green-500 text-white" : "bg-blue-500 text-white"
+              }`}
+            >
+              <SortByCalificationIcon className="w-3 h-3 ml-1" />
+              <div className="px-2 py-1">{sortByCalification ? "Sorted By Calification" : "Sort By Calification"}</div>
+            </button>
+          </div>  
       </div>
       <div className="flex flex-wrap justify-between">
         {loading && <div> Loading...</div>}

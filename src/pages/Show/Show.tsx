@@ -89,7 +89,7 @@ const Show = () => {
           <span>Loading...</span>
         ) : (
           <div>
-            <div className="flex flex-col">
+            <div className="flex flex-col mb-8">
               <div>
                 <div className="mb-8">
                   <button onClick={goBack} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
@@ -107,7 +107,7 @@ const Show = () => {
 
                 <div className="w-2/3">
                   <div className="mb-4 pl-8">
-                    <div className="text-2xl font-bold">{show.title}</div>
+                    <div className="text-5xl font-bold mb-4">{show.title}</div>
                     <div className="flex flex-wrap">
                       <div className="flex items-center">
                         <AdultIcon className="w-4 h-4 mr-1 mb-2" /> 
@@ -140,21 +140,21 @@ const Show = () => {
 
                   <div className="flex mb-4 pl-8">
                     <div className="flex-1">
-                      <h1 className="text-lg leading-6">Genres</h1>
+                      <h1 className="text-lg font-bold leading-6 mb-4">Genres</h1>
                       <div className="flex flex-wrap gap-2">
                         {show.genres.map((genre: any) => (
-                          <Pill key={genre.id} title={genre.name} color="green" />
+                          <Pill key={genre.id} title={genre.name} color="emerald" />
                         ))}
                       </div>
                     </div>
                     <div className="flex-1">
-                      <h1 className="text-lg leading-6">Favorite</h1>
+                      <h1 className="text-lg font-bold leading-6 mb-4">Favorite</h1>
                       {isFavorite ? (
                         <button onClick={removeFavorite} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
                           Remove from Favorites
                         </button>
                       ) : (
-                        <button onClick={addFavorite} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        <button onClick={addFavorite} className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded">
                           Add to Favorites
                         </button>
                       )}

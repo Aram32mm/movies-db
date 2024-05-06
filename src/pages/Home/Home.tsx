@@ -2,9 +2,12 @@ import { MovieCard } from '../../components/MovieCard';
 import { useEffect, useState } from 'react';
 import { getPopularMovies, getTopRatedMovies, getNowPlayingMovies } from '../../services/movies';
 import { IMovieResponse } from '../../services/movies/types';
+import { ReactComponent as ShowMoreIcon} from '../../assets/showMore.svg';
+import { useNavigate } from 'react-router';
 
 
 const Home = () => {
+    const navigate = useNavigate();
     const [popularMovies, setPopularMovies] = useState<IMovieResponse[]>([]);
     const [topRatedMovies, setTopRatedMovies] = useState<IMovieResponse[]>([]);
     const [nowPlayingMovies, setNowPlayingMovies] = useState<IMovieResponse[]>([]);
@@ -65,8 +68,12 @@ const Home = () => {
       <div className="flex flex-col">
         {/* POPULAR */}
         <div>
-            <div className="font-bold text-gray-800 text-2xl py-4 px-6">
-                POPULAR
+            <div className="flex items-center justify-between">
+                <div className="font-bold text-gray-800 text-2xl py-4 px-6">POPULAR</div>
+                <button className="flex items-center px-2 py-1 bg-red-500 text-white rounded-md ml-2 text-sm" onClick={() => navigate('/popular')}>
+                    <div className="px-2 py-1 bg-red-500 text-white rounded-md">View All</div>
+                    <ShowMoreIcon className="w-3 h-3 ml-1" />
+                </button>
             </div>
             <div className="flex max-w-full overflow-x-auto">
               {loading && <div> Loading...</div>}
@@ -86,8 +93,12 @@ const Home = () => {
         </div>
         {/* TOP RATED */}
         <div>
-            <div className="font-bold text-gray-800 text-2xl py-4 px-6">
-                TOP RATED
+            <div className="flex items-center justify-between">
+                <div className="font-bold text-gray-800 text-2xl py-4 px-6">TOP RATED</div>
+                <button className="flex items-center px-2 py-1 bg-red-500 text-white rounded-md ml-2 text-sm" onClick={() => navigate('/top-rated')}>
+                    <div className="px-2 py-1 bg-red-500 text-white rounded-md">View All</div>
+                    <ShowMoreIcon className="w-3 h-3 ml-1" />
+                </button>
             </div>
             <div className="flex max-w-full overflow-x-auto">
               {loading && <div> Loading...</div>}
@@ -107,8 +118,12 @@ const Home = () => {
         </div>
         {/* NOW PLAYING */}
         <div>
-            <div className="font-bold text-gray-800 text-2xl py-4 px-6">
-                NOW PLAYING
+            <div className="flex items-center justify-between">
+                <div className="font-bold text-gray-800 text-2xl py-4 px-6">NOW PLAYING</div>
+                <button className="flex items-center px-2 py-1 bg-red-500 text-white rounded-md ml-2 text-sm" onClick={() => navigate('/now-playing')}>
+                    <div className="px-2 py-1 bg-red-500 text-white rounded-md">View All</div>
+                    <ShowMoreIcon className="w-3 h-3 ml-1" />
+                </button>
             </div>
             <div className="flex max-w-full overflow-x-auto">
               {loading && <div> Loading...</div>}
