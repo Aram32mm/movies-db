@@ -30,7 +30,7 @@ const Navbar = () => {
           </Link>
           <div className="flex justify-end lg:hidden">
             <button
-              className={`block ${menuOpen ? 'bg-gray-800' : 'bg-white'} hover:bg-red-500 rounded-md p-2`}
+              className={`block bg-white hover:bg-red-500 rounded-md p-2`}
               id="mobile-menu-button"
               onClick={toggleMenu}
             >
